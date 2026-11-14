@@ -236,6 +236,49 @@ label.f{display:grid;gap:5px;font:500 .78rem/1.2 var(--mono);color:var(--muted);
 .axt{font:500 10.5px var(--mono);fill:var(--muted)}
 .plot{fill:none;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
 
+/* ---------- reparaciones ---------- */
+.rep-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.rep-bar .scen{flex:1;min-width:0}
+.rep-bar input{max-width:340px}
+.rep-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.rep-grid{grid-template-columns:minmax(0,1fr)}}
+.rep-list{display:grid;gap:6px;position:sticky;top:78px;max-height:calc(100vh - 96px);overflow:auto;padding-right:2px}
+@media (max-width:900px){.rep-list{position:relative;top:0;max-height:none;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}}
+.rep-item{appearance:none;text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;color:var(--ink);font:inherit}
+.rep-item:hover{border-color:var(--muted)}
+.rep-item[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--hot)}
+.rep-item b{font:600 1.08rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.rep-item .tags{display:flex;gap:5px;flex-wrap:wrap}
+.rep-empty{color:var(--muted);font-size:.9rem;padding:12px}
+.flow{display:grid;gap:0;position:relative}
+.fstep{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start;padding-bottom:14px;position:relative}
+.fstep::before{content:"";position:absolute;left:16px;top:30px;bottom:0;width:2px;background:var(--line)}
+.fstep:last-child::before{display:none}
+.fstep .n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:600 .85rem var(--mono);background:var(--sunk);color:var(--muted);border:2px solid var(--line);transition:all .35s;z-index:1}
+.fstep p{padding-top:6px;transition:color .35s;color:var(--muted)}
+.fstep.done .n{background:var(--cold-soft);color:var(--cold);border-color:var(--cold)}
+.fstep.done p{color:var(--ink)}
+.fstep.on .n{background:var(--cold);color:#fff;border-color:var(--cold);box-shadow:0 0 0 6px color-mix(in srgb,var(--cold) 22%,transparent)}
+.fstep.on p{color:var(--ink);font-weight:500}
+.fstep.on::after{content:"";position:absolute;left:13px;top:34px;width:8px;height:8px;border-radius:50%;background:var(--cold);animation:drop 1.7s ease-in infinite}
+.fstep:last-child.on::after{display:none}
+@keyframes drop{from{transform:translateY(0);opacity:1}to{transform:translateY(calc(100% + 10px));opacity:0}}
+@media (prefers-reduced-motion: reduce){.fstep.on::after{animation:none}}
+.models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.models{grid-template-columns:minmax(0,1fr)}}
+.model{background:var(--sunk);border-radius:10px;padding:10px 12px;display:grid;gap:4px;font-size:.9rem;border:1px solid transparent}
+.model.hl{border-color:var(--cold);background:var(--cold-soft)}
+.model span{font:600 .72rem/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tree{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start;margin-bottom:24px}
+@media (max-width:860px){.tree{grid-template-columns:minmax(0,1fr)}}
+.q-card{display:grid;gap:12px}
+.q-text{font:600 1.35rem/1.2 var(--display);text-wrap:balance}
+.q-path{display:flex;flex-wrap:wrap;gap:6px}
+.q-path .chip{text-transform:none;letter-spacing:0;font-weight:500}
+.q-anim{animation:qin .35s ease-out}
+@keyframes qin{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.q-anim{animation:none}}
+
 footer{padding-block:40px 60px;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line);margin-top:48px}
 .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
 @media (max-width:860px){.split{grid-template-columns:minmax(0,1fr)}}
@@ -262,6 +305,7 @@ footer{padding-block:40px 60px;color:var(--muted);font-size:.86rem;border-top:1p
       <a href="#tester">Tester</a>
       <a href="#presion">Presión y carga</a>
       <a href="#inverter">Inverter</a>
+      <a href="#reparaciones">Reparaciones</a>
     </nav>
   </div>
 </header>
@@ -738,6 +782,41 @@ footer{padding-block:40px 60px;color:var(--muted);font-size:.86rem;border-top:1p
 
     <h3 style="margin-bottom:12px">Tarjetas electrónicas que usa</h3>
     <div class="boards" id="boards"></div>
+  </div>
+</section>
+
+<!-- ======================= REPARACIONES ======================= -->
+<section id="reparaciones">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag eyebrow"><b>10</b>Reparaciones</span>
+      <h2>Las reparaciones más comunes</h2>
+      <p class="lede">Empieza por el diagnóstico rápido si el equipo no enfría. Después revisa cada falla: síntomas, cómo detectarla paso a paso, qué cambia según el tipo de equipo y cómo repararla.</p>
+    </div>
+
+    <div class="tree">
+      <div class="panel q-card" id="q-card" aria-live="polite"></div>
+      <div class="panel">
+        <h3>Antes de abrir el equipo</h3>
+        <ol class="ol">
+          <li>Pregunta al cliente qué pasa, desde cuándo y si hay un código en el display.</li>
+          <li>Revisa lo simple: breaker, voltaje, pilas del control, modo y temperatura programada.</li>
+          <li>Mira y escucha: hielo, agua, aceite, ruidos, olor a quemado, aspas quietas.</li>
+          <li>Mide con orden: voltaje → amperaje → presiones → temperaturas (SH, SC, ΔT del aire).</li>
+          <li>Confirma la causa antes de cambiar piezas. Una pieza quemada suele tener un causante.</li>
+        </ol>
+        <p class="note">En equipos inverter, anota el código de error y búscalo en el manual de servicio de esa marca y modelo: el mismo código significa cosas distintas en marcas diferentes.</p>
+      </div>
+    </div>
+
+    <div class="rep-bar">
+      <div class="scen" id="rep-models" role="group" aria-label="Tipo de equipo"></div>
+      <input type="text" id="rep-q" placeholder="Busca un síntoma: gotea, zumba, hielo…" aria-label="Buscar por síntoma">
+    </div>
+    <div class="rep-grid">
+      <div class="rep-list" id="rep-list"></div>
+      <div class="panel" id="rep-info" aria-live="polite"></div>
+    </div>
   </div>
 </section>
 </main>
@@ -1749,6 +1828,170 @@ const ST = (function(){
       p:'La interior y la exterior intercambian datos (temperaturas, frecuencia, errores) por el cable S o por un par de señal, con N como referencia.', l:['Medida típica S–N: voltaje DC que fluctúa (por ejemplo 0–24 V; en otras marcas hasta 0–60 V).','Si se invierten L y S o el cable está dañado, aparece error de comunicación.','Usa cable del calibre indicado y sin empalmes.']}
   ];
   $('#boards').innerHTML = B.map(b=>`<article class="board">${b.svg}<div class="bd"><h3>${b.n} <span class="chip">${b.chip}</span></h3><p>${b.p}</p><ul class="ul">${b.l.map(x=>`<li>${x}</li>`).join('')}</ul></div></article>`).join('');
+})();
+
+/* =====================================================================
+   REPARACIONES
+   ===================================================================== */
+(function(){
+  const MODELS = {conv:'Split convencional', inv:'Split inverter', ven:'Ventana', cen:'Central / paquete'};
+  const R = {
+    capacitor:{n:'Capacitor dañado', f:'Muy frecuente', d:'Básica',
+      s:['El compresor zumba, no arranca y el protector corta a los segundos','El ventilador exterior gira lento o solo arranca si se empuja','Capacitor inflado, con fuga de aceite o terminales quemados'],
+      det:['Corta el breaker y descarga el capacitor con una resistencia de 20 kΩ / 5 W','Revísalo a la vista: inflado o con aceite se reemplaza sin medir','Retira los cables y mide en µF entre HERM–C y FAN–C','Compara con la etiqueta: fuera de ±5 % se reemplaza'],
+      m:{conv:'Capacitor dual (35+5 µF típico) junto al contactor de la condensadora.', inv:'El compresor no usa capacitor. Puede haber uno en el motor del ventilador si es PSC. Los capacitores grandes del bus DC están en la tarjeta: si están inflados, falla la tarjeta.', ven:'Un capacitor dual dentro del chasis, detrás del panel de control.', cen:'Dual o separados. En compresores con arranque difícil se agrega un kit de arranque (capacitor de arranque + relé).'},
+      fix:['Reemplázalo con el mismo valor en µF y voltaje igual o mayor (370 o 440 VAC)','Respeta la conexión: HERM al compresor, FAN al ventilador, C a la línea','Fíjalo con su abrazadera para que no vibre','Arranca y mide el amperaje: debe quedar en la RLA o menos'],
+      t:['Multímetro con µF','Resistencia de descarga','Pinza amperimétrica']},
+    fuga:{n:'Fuga de refrigerante', f:'Muy frecuente', d:'Avanzada',
+      s:['Enfría poco o nada: la evaporadora tira aire tibio','Escarcha en la válvula de servicio o en el evaporador','Presión de baja por debajo de lo normal y sobrecalentamiento alto','Manchas de aceite en uniones, abocinados o codos'],
+      det:['Con el equipo estable, mide presión de baja, sobrecalentamiento y subenfriamiento','Busca aceite en abocinados, válvulas de servicio y codos del evaporador','Recorre las uniones con detector electrónico o agua jabonosa','Si no aparece: recupera, presuriza con nitrógeno y prueba el sistema por secciones'],
+      m:{conv:'Puntos típicos: abocinados de la instalación, válvulas de servicio y núcleo Schrader.', inv:'Mismos puntos. Además, la tarjeta puede marcar falta de refrigerante o sobretemperatura de descarga. Mide con el equipo en modo prueba.', ven:'Sistema sellado sin puerto: se instala una válvula perforadora para medir. Las fugas suelen estar en los tubos del compresor por vibración.', cen:'Fugas en el serpentín evaporador por corrosión, en la TXV y en uniones soldadas de líneas largas.'},
+      fix:['Recupera el refrigerante que queda','Repara: rehaz el abocinado, suelda con varilla de plata y nitrógeno circulando, o cambia el serpentín','Cambia el filtro deshidratador','Prueba con nitrógeno, haz vacío a 500 µm y la prueba de caída','Carga por peso y verifica SH y SC'],
+      t:['Manifold','Detector de fugas','Nitrógeno y regulador','Bomba de vacío y vacuómetro','Balanza','Equipo de soldadura']},
+    congelado:{n:'Evaporador congelado', f:'Frecuente', d:'Básica',
+      s:['Hielo en el serpentín interior o en la tubería de succión','Cada vez sale menos aire y después gotea agua al descongelarse','Baja presión baja: con SH bajo es falta de aire, con SH alto es falta de gas'],
+      det:['Apaga el compresor y deja la turbina encendida para descongelar','Revisa si los filtros y la turbina están sucios','Comprueba que la turbina gire a la velocidad correcta','Con el serpentín seco, mide presiones y SH para descartar falta de gas'],
+      m:{conv:'La causa más frecuente son filtros sucios y turbina con grasa o polvo.', inv:'Revisa el sensor de serpentín interior: si lee mal, la tarjeta no activa la protección anticongelamiento.', ven:'Filtro frontal sucio o aletas tapadas. Revisa el termostato.', cen:'Filtros del retorno, rejillas cerradas, banda del blower floja o TXV fallando.'},
+      fix:['Lava filtros y turbina (desmontada o con bolsa de lavado)','Lava el serpentín con limpiador no ácido','Corrige el flujo de aire o la velocidad del motor','Si faltaba gas, repara la fuga y carga'],
+      t:['Hidrolavadora de baja presión','Limpiador de serpentín','Bolsa de lavado para split']},
+    condsucio:{n:'Condensador sucio o mal ventilado', f:'Muy frecuente', d:'Básica',
+      s:['Presión de alta elevada y amperaje alto','El protector térmico apaga el compresor en días de calor','El aire de la condensadora sale muy caliente o con poco flujo'],
+      det:['Mira las aletas por ambos lados con una linterna','Mide la diferencia de temperatura del aire entre entrada y salida','Mide la alta: si la condensación supera al ambiente en más de 17 °C, hay mala transferencia','Revisa si recircula aire caliente por estar pegada a paredes o bajo techo'],
+      m:{conv:'Se lava desde adentro hacia afuera, retirando la tapa superior y el ventilador.', inv:'La tarjeta baja la frecuencia por protección de alta temperatura: el equipo enfría poco sin mostrar código. Revisa el sensor de serpentín exterior.', ven:'Se lava sacando el chasis y protegiendo la parte eléctrica.', cen:'Serpentín envolvente grande: lavado químico y peinado de aletas.'},
+      fix:['Corta la energía y cubre la parte eléctrica','Aplica limpiador y enjuaga en sentido contrario al flujo de aire','Peina las aletas dobladas','Reubica la unidad si recircula aire caliente','Verifica presión y amperaje después del lavado'],
+      t:['Hidrolavadora','Peine de aletas','Pinza amperimétrica']},
+    drenaje:{n:'Gotea agua dentro', f:'Muy frecuente', d:'Básica',
+      s:['Gotea agua de la evaporadora o escurre por la pared','Bandeja llena y olor a humedad','Hielo en el serpentín que al derretirse rebosa la bandeja'],
+      det:['Vierte un vaso de agua en la bandeja y comprueba que salga por la manguera','Revisa la pendiente de la manguera: al menos 1–2 cm por metro','Busca la manguera aplastada, con tramos hacia arriba o con la punta sumergida','Comprueba con un nivel que la evaporadora esté nivelada'],
+      m:{conv:'Bandeja y manguera tapadas con lodo o algas.', inv:'Igual. Si tiene bomba de condensado, revisa el flotador y la bomba.', ven:'Debe quedar un poco inclinado hacia afuera. Si está nivelado o al revés, gotea adentro.', cen:'Trampa del drenaje tapada o inexistente. Revisa la bandeja auxiliar y su flotador de seguridad.'},
+      fix:['Destapa con nitrógeno a baja presión o con bomba de succión','Lava la bandeja y coloca pastillas antialgas','Corrige la pendiente y fija la manguera','Nivela la evaporadora'],
+      t:['Nivel','Nitrógeno o bomba de succión','Pastillas antialgas']},
+    contactor:{n:'Contactor o relé dañado', f:'Frecuente', d:'Básica',
+      s:['La evaporadora funciona pero la condensadora no arranca','El contactor zumba o vibra','Contactos picados o negros y terminales derretidos'],
+      det:['Con el equipo pidiendo frío, mide el voltaje en la bobina (24 V o 220 V)','Si hay voltaje y no cierra, mide la bobina en Ω: O.L significa abierta','Si cierra, mide la caída entre L1 y T1: más de 1 V indica contactos picados','Busca hormigas o insectos entre los contactos'],
+      m:{conv:'Contactor de 1 o 2 polos en la condensadora, con bobina de 24 V o 220 V.', inv:'No hay contactor. Lo reemplaza un relé con PTC en la tarjeta exterior: si falla, no se carga el bus DC.', ven:'Relés en la tarjeta o selector mecánico. Revisa también el termostato.', cen:'Contactor de 24 V que comanda el termostato. Revisa el transformador de 220/24 V.'},
+      fix:['Corta la energía y toma una foto del cableado','Reemplázalo por uno con la misma bobina y amperaje igual o mayor','Aprieta bien todos los terminales','Arranca y mide la caída de tensión en los contactos'],
+      t:['Multímetro','Destornilladores aislados']},
+    ventilador:{n:'Motor del ventilador exterior', f:'Frecuente', d:'Media',
+      s:['Las aspas no giran o giran lento, y el compresor se apaga por alta','El motor se calienta mucho o hace ruido de rodamientos','Las aspas arrancan si se empujan (suele ser el capacitor)'],
+      det:['Revisa primero el capacitor FAN','Con el equipo apagado, gira el eje a mano: debe girar libre','Mide los devanados del motor','Mide el aislamiento de los devanados contra la carcasa'],
+      m:{conv:'Motor PSC de 220 V con capacitor de 2.5–5 µF.', inv:'Motor DC sin escobillas. Recibe 310 V DC, 15 V DC y una señal de velocidad desde la tarjeta. Nunca lo pruebes con 220 V directos.', ven:'Un solo motor de doble eje mueve el aspa del condensador y la turbina del evaporador.', cen:'Motor de 1/4 a 1/2 HP con capacitor. El sentido de giro va en la etiqueta.'},
+      fix:['Reemplázalo por uno de igual potencia, rpm, sentido de giro y voltaje','Cambia también el capacitor','Monta el aspa a la misma altura en el eje','Mide el amperaje del motor y compáralo con la FLA de placa'],
+      t:['Multímetro','Extractor de aspas','Pinza amperimétrica']},
+    turbina:{n:'Motor de la turbina interior', f:'Media', d:'Media',
+      s:['La evaporadora no tira aire y aparece un código de error de motor','La turbina arranca y se detiene a los pocos segundos','Ruido o vibración en la turbina'],
+      det:['Comprueba que la turbina gire libre a mano','Motor PG: mide los devanados y la señal del sensor Hall (pulsos de 0–5 V)','Motor DC: mide 310 V DC, 15 V DC y la señal de control en el conector','Revisa el buje de goma del extremo de la turbina'],
+      m:{conv:'Motor PG de 220 V AC controlado por TRIAC, con sensor Hall de velocidad.', inv:'Motor DC con driver interno: si llegan las tres tensiones y no gira, el motor está dañado.', ven:'Es el mismo motor del ventilador exterior (doble eje).', cen:'Blower centrífugo con motor PSC de varias velocidades o motor ECM.'},
+      fix:['Reemplázalo por el mismo modelo o uno equivalente con igual conector y voltaje','Cambia el buje si la turbina vibra','Limpia la turbina antes de montarla'],
+      t:['Multímetro','Medidor de frecuencia (opcional)']},
+    sensor:{n:'Sensor de temperatura (NTC)', f:'Frecuente', d:'Básica',
+      s:['Código de error de sensor en el display o un LED que parpadea','El equipo enfría sin parar o se apaga demasiado pronto','La condensadora no arranca sin una causa visible'],
+      det:['Busca el código en el manual de servicio: indica qué sensor falla','Desconecta el sensor, mídelo en Ω y compáralo con la tabla a la temperatura real','Revisa el cable y el conector (sulfatado o roto)','En la tarjeta, mide el voltaje del divisor: ≈ 2.5 V a 25 °C'],
+      m:{conv:'Dos sensores en la interior: ambiente y serpentín (5k, 10k o 15k).', inv:'Además hay sensores en la exterior: ambiente, serpentín y descarga (a menudo de 50k). Uno de descarga dañado provoca paradas por sobretemperatura.', ven:'Termostato mecánico de bulbo, o sensor NTC en modelos electrónicos.', cen:'Termostato de pared y sensores en el control de desescarche de las bombas de calor.'},
+      fix:['Reemplázalo por uno con el mismo valor a 25 °C y la misma curva','Coloca el sensor de serpentín en su vaina con buen contacto','Corta la energía 1 minuto para reiniciar la tarjeta'],
+      t:['Multímetro','Termómetro']},
+    com:{n:'Error de comunicación', f:'Frecuente en inverter', d:'Media',
+      s:['Código de comunicación al encender o tras unos minutos','La interior funciona pero la exterior no arranca','LED de la tarjeta exterior apagado o con patrón de error'],
+      det:['Verifica 220 V entre L y N en la bornera de la exterior','Mide entre S y N: la señal debe fluctuar','Revisa el orden de los cables y que no haya empalmes','Revisa el fusible y la fuente de la tarjeta exterior'],
+      m:{conv:'Normalmente no hay comunicación: la interior manda 220 V al contactor por un cable de control.', inv:'Comunicación serial por la línea S. Causas: cables invertidos, humedad en la bornera, tarjeta exterior sin fuente o IPM en corto.', ven:'No aplica: todo está en una sola unidad.', cen:'Solo en termostatos comunicantes de equipos modernos. Revisa su cableado.'},
+      fix:['Rehaz las conexiones con terminales y sin empalmes','Cambia el cable de interconexión si está dañado','Si la tarjeta exterior no enciende, revisa fusible, puente rectificador y fuente','Reemplaza la tarjeta que no comunica'],
+      t:['Multímetro','Manual de servicio']},
+    compresor:{n:'Compresor dañado', f:'Media', d:'Avanzada',
+      s:['Dispara el breaker al arrancar (compresor aterrizado)','Zumba y no arranca aunque el capacitor esté bueno (trabado)','Arranca pero las presiones no se separan (sin compresión)'],
+      det:['Mide los devanados C–R, C–S y R–S','Mide el aislamiento a tierra con megóhmetro','Si está trabado, prueba con un kit de arranque duro','En marcha: presiones casi iguales y amperaje bajo indican falta de compresión'],
+      m:{conv:'Compresor monofásico PSC de 3 bornes (C, S, R).', inv:'Compresor BLDC trifásico U-V-W: las tres resistencias deben ser iguales (0.5–3 Ω). Un IPM dañado suele venir de un compresor en corto.', ven:'Compresor rotativo pequeño. A veces conviene más cambiar el equipo.', cen:'Scroll o reciprocante. En trifásicos, revisa la secuencia de fases: un scroll al revés hace ruido y no bombea.'},
+      fix:['Recupera el refrigerante','Cambia el compresor y el filtro deshidratador (antiácido si se quemó)','Barre la tubería con nitrógeno y suelda con nitrógeno circulando','Haz vacío profundo, carga por peso y cambia capacitor y contactor'],
+      t:['Megóhmetro','Máquina recuperadora','Equipo de soldadura','Bomba de vacío','Balanza']},
+    placa:{n:'Tarjeta o módulo IPM inverter', f:'Media', d:'Avanzada',
+      s:['La exterior no arranca y marca protección de IPM o de corriente','El breaker se dispara al encender','Componentes quemados o capacitores inflados en la tarjeta'],
+      det:['Inspecciona la tarjeta: quemaduras, capacitores inflados, pistas abiertas','Mide el bus DC (≈ 310 V)','Sin energía, prueba el IPM en modo diodo','Desconecta el compresor y mide sus devanados antes de cambiar la tarjeta'],
+      m:{conv:'Tarjeta de control sencilla. Se puede reemplazar por una tarjeta universal.', inv:'Tarjeta específica del modelo: busca el número de parte en la etiqueta. Las universales no son confiables aquí.', ven:'Tarjeta de control con relés en modelos electrónicos.', cen:'Tarjeta del fan coil y tarjeta de desescarche.'},
+      fix:['Confirma que el compresor está bien antes de instalar la tarjeta nueva','Reemplázala por el mismo número de parte','Pon pasta térmica nueva en el IPM y en el puente rectificador','Prueba el arranque en modo de prueba'],
+      t:['Multímetro','Pulsera antiestática','Pasta térmica']},
+    cuatrovias:{n:'Válvula de 4 vías', f:'Media (frío/calor)', d:'Avanzada',
+      s:['No calienta (o no enfría) aunque el compresor funciona','Silbido en la válvula','Los tubos de la válvula quedan a temperaturas intermedias'],
+      det:['Verifica 220 V en la bobina en el modo que la energiza','Mide la bobina en Ω (≈ 1–2 kΩ)','Mide la temperatura en las cuatro conexiones y compárala con la esperada','Con la bobina energizada, golpea suavemente el cuerpo por si está pegada'],
+      m:{conv:'Solo en modelos frío/calor. En la mayoría de marcas se energiza en calefacción.', inv:'Controlada por un relé de la tarjeta exterior. Revisa esa salida.', ven:'Los modelos frío/calor de ventana la usan igual.', cen:'Bombas de calor centrales. Algunas marcas la energizan en frío (terminal O o B del termostato).'},
+      fix:['Si falla la bobina, cámbiala sin abrir el sistema','Si el cuerpo está pegado: recupera y cámbiala, enfriándola con trapo húmedo al soldar','Haz vacío y carga por peso'],
+      t:['Multímetro','Termómetro de contacto','Equipo de soldadura']},
+    restriccion:{n:'Capilar, filtro o EEV obstruido', f:'Media', d:'Avanzada',
+      s:['Baja muy baja o en vacío y enfría poco','Escarcha o sudor justo a la salida del filtro o del capilar','Subenfriamiento alto: el líquido se acumula en el condensador'],
+      det:['Mide la temperatura antes y después del filtro: más de 2–3 °C de diferencia indica obstrucción','Mide presiones, SH y SC','Calienta el capilar: si la baja sube un momento, hay humedad congelada'],
+      m:{conv:'Capilares en la unidad exterior, antes de la válvula de servicio.', inv:'Usa EEV en lugar de capilar. Mide la bobina (12 V DC, ≈ 46 Ω por fase) y escucha el clic al encender el equipo.', ven:'Capilar largo y fino, muy sensible a la humedad.', cen:'TXV: revisa que el bulbo sensor esté bien sujeto y aislado.'},
+      fix:['Recupera el refrigerante','Cambia el filtro deshidratador','Limpia el capilar con nitrógeno o reemplázalo por uno de igual medida (o cambia la EEV)','Haz un vacío prolongado y carga por peso'],
+      t:['Manifold','Termómetro','Equipo de soldadura']},
+    ruido:{n:'Ruidos y vibraciones', f:'Frecuente', d:'Básica',
+      s:['Golpeteo o vibración en la condensadora','La turbina roza o hace clic','Tuberías que vibran contra la pared o el chasis'],
+      det:['Ubica el origen del ruido con el equipo en marcha','Revisa los cauchos antivibración del compresor','Revisa que aspas y turbina no estén rotas, flojas ni desbalanceadas','Revisa los tornillos de paneles y de la base'],
+      m:{conv:'Bases y soportes flojos, o aspa que roza la rejilla.', inv:'Algunas frecuencias del compresor hacen resonar los tubos: ajusta las abrazaderas.', ven:'El chasis vibra contra la ventana por falta de sello o de soporte.', cen:'Paneles sueltos y ductos sin conexión flexible.'},
+      fix:['Cambia los cauchos y aprieta los tornillos','Reemplaza el aspa o la turbina si está rota','Separa y fija los tubos con abrazaderas y aislante'],
+      t:['Juego de llaves','Cauchos antivibración']},
+    remoto:{n:'Control remoto o receptor', f:'Frecuente', d:'Básica',
+      s:['El equipo no responde al control','Solo responde de muy cerca'],
+      det:['Apunta el control a la cámara del celular: el LED debe parpadear al presionar','Cambia las pilas','Mide 5 V en el receptor infrarrojo de la tarjeta display','Prueba con el botón manual o de emergencia del equipo'],
+      m:{conv:'Control y receptor infrarrojo estándar.', inv:'Igual. Verifica también el modo seleccionado y si hay bloqueo de botones.', ven:'Controles mecánicos o tarjeta con botones en el panel.', cen:'Termostato de pared: revisa pilas y el cableado de 24 V.'},
+      fix:['Cambia las pilas o usa un control genérico compatible','Reemplaza el receptor IR o la tarjeta display'],
+      t:['Celular con cámara','Multímetro']}
+  };
+  const ALL = Object.keys(MODELS); Object.values(R).forEach(r=>{ r.on = r.on || ALL.filter(k=> !/^No aplica/.test(r.m[k])); });
+  const freqCls = f=> /Muy/.test(f) ? 'hot' : /Frecuente/.test(f) ? 'warn' : '';
+  const diffCls = d=> d==='Básica' ? 'ok' : d==='Media' ? 'warn' : 'bad';
+  let model = 'all', sel = 'capacitor', flowT = null;
+
+  $('#rep-models').innerHTML = `<button type="button" class="btn on" data-m="all">Todos</button>` + Object.entries(MODELS).map(([k,v])=>`<button type="button" class="btn" data-m="${k}">${v}</button>`).join('');
+  $$('#rep-models button').forEach(b=> b.onclick = ()=>{ model = b.dataset.m; $$('#rep-models button').forEach(x=>x.classList.toggle('on', x===b)); list(); detail(); });
+  $('#rep-q').addEventListener('input', list);
+
+  function list(){ const q = $('#rep-q').value.trim().toLowerCase();
+    const ids = Object.keys(R).filter(k=>{ const r=R[k]; if (model!=='all' && !r.on.includes(model)) return false; if (!q) return true; return (r.n+' '+r.s.join(' ')+' '+r.det.join(' ')).toLowerCase().includes(q); });
+    $('#rep-list').innerHTML = ids.length ? ids.map(k=>{ const r=R[k]; return `<button type="button" class="rep-item" data-r="${k}" aria-pressed="${k===sel}"><b>${r.n}</b><span class="tags"><span class="chip ${freqCls(r.f)}">${r.f}</span><span class="chip ${diffCls(r.d)}">${r.d}</span></span></button>`; }).join('') : `<p class="rep-empty">Ninguna reparación coincide. Prueba otra palabra, por ejemplo "hielo", "breaker" o "código".</p>`;
+    $$('#rep-list .rep-item').forEach(b=> b.onclick = ()=>{ sel = b.dataset.r; $$('#rep-list .rep-item').forEach(x=>x.setAttribute('aria-pressed', x===b)); detail(); });
+    if (ids.length && !ids.includes(sel)){ sel = ids[0]; $('#rep-list .rep-item').setAttribute('aria-pressed','true'); detail(); } }
+
+  function detail(){ const r = R[sel]; clearInterval(flowT);
+    $('#rep-info').innerHTML = `<p class="eyebrow">Reparación</p>
+      <h3>${r.n} <span class="chip ${freqCls(r.f)}">${r.f}</span><span class="chip ${diffCls(r.d)}">Dificultad ${r.d.toLowerCase()}</span></h3>
+      <div><h4>Síntomas</h4><ul class="ul">${r.s.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <div><h4>Cómo detectarlo</h4><div class="flow" id="rep-flow">${r.det.map((x,i)=>`<div class="fstep"><span class="n">${i+1}</span><p>${x}</p></div>`).join('')}</div></div>
+      <div><h4>En cada tipo de equipo</h4><div class="models">${Object.entries(MODELS).map(([k,v])=>`<div class="model${model===k?' hl':''}"><span>${v}</span>${r.m[k]}</div>`).join('')}</div></div>
+      <div><h4>Cómo repararlo</h4><ol class="ol">${r.fix.map(x=>`<li>${x}</li>`).join('')}</ol></div>
+      <div><h4>Herramientas</h4><div class="q-path">${r.t.map(x=>`<span class="chip">${x}</span>`).join('')}</div></div>`;
+    const steps = $$('#rep-flow .fstep'); let i = 0;
+    const paint = ()=> steps.forEach((s,k)=>{ s.classList.toggle('on', k===i); s.classList.toggle('done', k<i); });
+    if (RM){ i = steps.length-1; paint(); return; }
+    paint(); flowT = setInterval(()=>{ i = (i+1) % (steps.length+1); if (i===steps.length){ steps.forEach(s=>{ s.classList.remove('on'); s.classList.add('done'); }); return; } paint(); }, 1800); }
+
+  // Diagnóstico rápido: el equipo no enfría
+  const Q = {
+    a:{q:'¿La evaporadora enciende y responde al control?', y:'b', n:'=remoto'},
+    b:{q:'¿Funciona la condensadora (ventilador y compresor)?', y:'c', n:'d'},
+    d:{q:'¿El ventilador exterior gira, pero el compresor zumba o no arranca?', y:'=capacitor', n:'e'},
+    e:{q:'¿El display muestra un código de error?', y:'f', n:'=contactor'},
+    f:{q:'¿Es un equipo inverter?', y:'=com', n:'=sensor'},
+    c:{q:'¿Hay hielo en el evaporador o en la tubería de succión?', y:'g', n:'h'},
+    g:{q:'¿Los filtros y la turbina están limpios?', y:'=fuga', n:'=congelado'},
+    h:{q:'¿La presión de alta es muy elevada o el compresor se apaga solo?', y:'=condsucio', n:'i'},
+    i:{q:'¿La baja está muy baja y el subenfriamiento alto?', y:'=restriccion', n:'=fuga'}
+  };
+  let path = [];
+  function ask(k){ const card = $('#q-card');
+    const crumbs = path.map(p=>`<span class="chip">${p.short} → ${p.a}</span>`).join('');
+    if (k.startsWith('=')){ const id = k.slice(1), r = R[id];
+      card.innerHTML = `<p class="eyebrow">Diagnóstico rápido · el equipo no enfría</p><div class="q-path">${crumbs}</div>
+        <div class="q-anim" style="display:grid;gap:10px"><p class="q-text">Causa probable: <span class="hot">${r.n}</span></p><p>${r.s[0]}.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="q-go">Ver cómo repararlo</button><button type="button" class="btn" id="q-reset">Empezar de nuevo</button></div></div>`;
+      $('#q-go').onclick = ()=>{ model='all'; $$('#rep-models button').forEach(x=>x.classList.toggle('on', x.dataset.m==='all')); $('#rep-q').value=''; sel=id; list(); detail(); $('#rep-info').scrollIntoView({behavior:RM?'auto':'smooth', block:'start'}); };
+      $('#q-reset').onclick = ()=>{ path=[]; ask('a'); }; return; }
+    const n = Q[k];
+    card.innerHTML = `<p class="eyebrow">Diagnóstico rápido · el equipo no enfría</p><div class="q-path">${crumbs || '<span class="chip">Paso 1</span>'}</div>
+      <div class="q-anim" style="display:grid;gap:12px"><p class="q-text">${n.q}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="q-y">Sí</button><button type="button" class="btn" id="q-n">No</button>${path.length?'<button type="button" class="btn" id="q-back">← Atrás</button>':''}</div></div>`;
+    const short = n.q.replace(/^¿/,'').replace(/\?$/,'').split(' ').slice(0,4).join(' ')+'…';
+    $('#q-y').onclick = ()=>{ path.push({k, short, a:'Sí'}); ask(n.y); };
+    $('#q-n').onclick = ()=>{ path.push({k, short, a:'No'}); ask(n.n); };
+    const bk = $('#q-back'); if (bk) bk.onclick = ()=>{ const p = path.pop(); ask(p.k); };
+  }
+  ask('a'); list(); detail();
 })();
 
 /* ---------- navegación ---------- */
